@@ -20,7 +20,7 @@ interface ArticleData {
 }
 
 interface Props {
-  initialNavItems: ContentNavItem[]
+  initialNavItems?: ContentNavItem[]  // Make it optional since we're not using it
 }
 
 // 验证路径是否属于当前内容类型
@@ -113,13 +113,6 @@ export default function DeepSeekClient({ initialNavItems: _ }: Props) {
     }
     return getDefaultPath(navItems)
   })
-  const [metadata, setMetadata] = useState<ArticleData>({
-    title: '',
-    date: '',
-    tags: [],
-    section: '',
-    content: ''
-  })
   const [expandedItems, setExpandedItems] = useState<string[]>([])
 
   // 使用 useCallback 包装 loadContent
@@ -138,14 +131,6 @@ export default function DeepSeekClient({ initialNavItems: _ }: Props) {
         const { processedContent, toc: newToc } = processContent(data.content);
         setContent(processedContent);
         setToc(newToc);
-        
-        setMetadata(data.metadata || {
-          title: '',
-          date: '',
-          tags: [],
-          section: '',
-          content: ''
-        });
         
         // 获取导航信息
         const navResponse = await fetch(`/api?action=get-navigation&currentId=${cleanPage}&type=deepseek`);
