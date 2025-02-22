@@ -363,48 +363,110 @@ export default function ChatGPTClient({ initialNavItems: _ }: Props) {
   }
 
   return (
-    <div className="flex flex-col min-h-screen">
-      <div className="flex-1 flex">
+    <div className="container mx-auto px-4 py-8">
+      <div className="flex gap-8">
         {/* Sidebar */}
-        <nav className="w-64 border-r border-gray-200 pt-5 pb-4 overflow-y-auto">
-          <div className="px-6">
-            <h2 className="text-lg font-semibold text-gray-900">{metadata.title || 'ChatGPT Guide'}</h2>
+        <aside className="w-64 flex-shrink-0">
+          <div className="sticky top-24">
+            <nav className="space-y-[2px]">
+              {navItems.map(renderNavItem)}
+            </nav>
           </div>
-          {/* Navigation items */}
-          <div className="mt-5 px-3 space-y-1">
-            {navItems.map((item) => renderNavItem(item))}
-          </div>
-        </nav>
-        {/* Main content */}
-        <main className="flex-1 p-8">
-          <div className="max-w-3xl mx-auto">
-            <div className="prose prose-green max-w-none" dangerouslySetInnerHTML={{ __html: content }} />
+        </aside>
+
+        {/* Main Content */}
+        <main className="flex-1 min-w-0">
+          <div className="prose max-w-none">
+            <nav className="text-sm mb-8">
+              <Link href="/" className="text-gray-500 hover:text-green-600 inline-flex items-center">
+                <span className="mr-1">🏠</span>
+                首页
+              </Link>
+              <span className="mx-2 text-gray-300">/</span>
+              {getPathInfo().section && (
+                <>
+                  <span className="text-gray-500">{getPathInfo().section}</span>
+                  <span className="mx-2 text-gray-300">/</span>
+                </>
+              )}
+              <span className="text-gray-900">{getPathInfo().title}</span>
+            </nav>
+
+            <div 
+              className="prose max-w-none"
+              dangerouslySetInnerHTML={{ __html: content }} 
+            />
+
+            {/* Article Navigation */}
+            <div className="mt-12 border-t border-gray-200">
+              <div className={`grid gap-4 py-6 ${navigation.prev && navigation.next ? 'grid-cols-2' : 'grid-cols-1'}`}>
+                {/* Previous Article */}
+                {navigation.prev && (
+                  <button
+                    onClick={() => {
+                      const prevPath = `/chatgpt/${navigation.prev!.id}`;
+                      setCurrentPage(prevPath);
+                      window.history.pushState({}, '', prevPath);
+                    }}
+                    className="group flex items-center p-4 -ml-4 text-gray-500 hover:text-green-600 transition-colors"
+                  >
+                    <span className="text-[16px]">« {navigation.prev.title}</span>
+                  </button>
+                )}
+
+                {/* Next Article */}
+                {navigation.next && (
+                  <button
+                    onClick={() => {
+                      const nextPath = `/chatgpt/${navigation.next!.id}`;
+                      setCurrentPage(nextPath);
+                      window.history.pushState({}, '', nextPath);
+                    }}
+                    className={`group flex items-center p-4 -mr-4 transition-colors
+                      ${navigation.prev ? 'justify-end text-right' : 'justify-end text-right ml-auto'} 
+                      text-gray-500 hover:text-green-600`}
+                  >
+                    <span className="text-[16px]">{navigation.next.title} »</span>
+                  </button>
+                )}
+              </div>
+            </div>
           </div>
         </main>
-        {/* Table of contents */}
-        <nav className="w-64 border-l border-gray-200 pt-5 pb-4 overflow-y-auto">
-          <div className="px-6">
-            <h2 className="text-lg font-semibold text-gray-900">Table of Contents</h2>
+
+        {/* Right Sidebar */}
+        <aside className="w-64 flex-shrink-0">
+          <div className="sticky top-24">
+            <div className="bg-white rounded-lg border p-4">
+              <h3 className="font-medium text-gray-900 mb-2">目录</h3>
+              <ul className="space-y-1 text-sm">
+                {toc.map((item) => (
+                  <li 
+                    key={item.id}
+                    style={{ 
+                      paddingLeft: `${(item.level - 2) * 12}px`,
+                      marginTop: item.level === 2 ? '8px' : '4px'
+                    }}
+                  >
+                    <a 
+                      href={`#${item.id}`}
+                      className={`
+                        block text-gray-600 hover:text-green-600
+                        ${item.level === 2 ? 'font-medium text-[14px]' : 'text-[13px]'}
+                      `}
+                      onClick={(e) => handleTocClick(e, item.id)}
+                    >
+                      {item.text}
+                    </a>
+                  </li>
+                ))}
+                {toc.length === 0 && (
+                  <li className="text-gray-500">暂无目录</li>
+                )}
+              </ul>
+            </div>
           </div>
-          <div className="mt-5 px-3 space-y-1">
-            {toc.map((item) => (
-              <a
-                key={item.id}
-                href={`#${item.id}`}
-                onClick={(e) => handleTocClick(e, item.id)}
-                className={`block py-2 px-3 text-sm hover:bg-gray-50 rounded-md
-                  ${item.level === 1 ? 'font-semibold' : ''}
-                  ${item.level === 2 ? 'pl-6' : ''}
-                  ${item.level === 3 ? 'pl-9' : ''}
-                  ${item.level === 4 ? 'pl-12' : ''}
-                  ${item.level === 5 ? 'pl-15' : ''}
-                  ${item.level === 6 ? 'pl-18' : ''}`}
-              >
-                {item.text}
-              </a>
-            ))}
-          </div>
-        </nav>
+        </aside>
       </div>
     </div>
   )
