@@ -1,4 +1,4 @@
-import { getAllPosts, Post } from '../../../lib/api';
+import { getAllPosts } from '../../../lib/api';
 import { NextResponse } from 'next/server';
 
 export async function GET() {
