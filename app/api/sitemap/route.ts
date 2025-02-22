@@ -1,13 +1,8 @@
-import { getAllPosts } from '../../../lib/api';
+import { getAllPosts, Post } from '../../../lib/api';
 import { NextResponse } from 'next/server';
 
-interface Post {
-  slug: string;
-  date: string;
-}
-
 export async function GET() {
-  const posts = getAllPosts(['slug', 'date']) as Post[];
+  const posts = getAllPosts(['slug', 'date']);
   const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || 'https://your-domain.com';
 
   const sitemap = `<?xml version="1.0" encoding="UTF-8"?>
@@ -26,11 +21,12 @@ export async function GET() {
       </url>
       <!-- Blog posts -->
       ${posts
-        .map((post: Post) => {
+        .filter((post) => post.slug && post.date)
+        .map((post) => {
           return `
         <url>
           <loc>${baseUrl}/blog/${post.slug}</loc>
-          <lastmod>${new Date(post.date).toISOString()}</lastmod>
+          <lastmod>${new Date(post.date!).toISOString()}</lastmod>
           <changefreq>weekly</changefreq>
           <priority>0.7</priority>
         </url>`;

@@ -2,6 +2,12 @@ import fs from 'fs';
 import { join } from 'path';
 import matter from 'gray-matter';
 
+export interface Post {
+  [key: string]: string | undefined;
+  slug?: string;
+  date?: string;
+}
+
 const postsDirectory = join(process.cwd(), 'content/posts');
 
 export function getPostSlugs() {
@@ -13,7 +19,7 @@ export function getPostSlugs() {
   }
 }
 
-export function getPostBySlug(slug: string, fields: string[] = []) {
+export function getPostBySlug(slug: string, fields: string[] = []): Post {
   const realSlug = slug.replace(/\.md$/, '');
   const fullPath = join(postsDirectory, `${realSlug}.md`);
   
@@ -21,11 +27,7 @@ export function getPostBySlug(slug: string, fields: string[] = []) {
     const fileContents = fs.readFileSync(fullPath, 'utf8');
     const { data, content } = matter(fileContents);
 
-    type Items = {
-      [key: string]: string;
-    };
-
-    const items: Items = {};
+    const items: Post = {};
 
     fields.forEach((field) => {
       if (field === 'slug') {
@@ -49,11 +51,11 @@ export function getPostBySlug(slug: string, fields: string[] = []) {
   }
 }
 
-export function getAllPosts(fields: string[] = []) {
+export function getAllPosts(fields: string[] = []): Post[] {
   const slugs = getPostSlugs();
   const posts = slugs
     .map((slug) => getPostBySlug(slug, fields))
     .filter((post) => Object.keys(post).length > 0) // Filter out empty posts
-    .sort((post1, post2) => (post1.date > post2.date ? -1 : 1));
+    .sort((post1, post2) => (post1.date! > post2.date! ? -1 : 1));
   return posts;
 } 
