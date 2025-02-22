@@ -10,7 +10,7 @@ export default function Footer() {
           <div>
             <h3 className="font-semibold mb-3 text-white">我开发的iOS App</h3>
             <ul className="space-y-2">
-              <li>
+              {/* <li>
                 <Link href="/ios/prompt" className="hover:text-white flex items-center">
                   📱 拍照学单词
                   <ArrowUpRight />
@@ -27,7 +27,7 @@ export default function Footer() {
                   📍 小智找灯
                   <ArrowUpRight />
                 </Link>
-              </li>
+              </li> */}
             </ul>
           </div>
 
@@ -35,6 +35,13 @@ export default function Footer() {
           <div>
             <h3 className="font-semibold mb-3 text-white">我开发的AI网站</h3>
             <ul className="space-y-2">
+              <li>
+                <Link href="https://www.studyai.work" className="hover:text-white flex items-center" target="_blank">
+                  🎨 StudyAI
+                  <ArrowUpRight />
+                </Link>
+              </li>
+{/* 
               <li>
                 <Link href="/ai/image" className="hover:text-white flex items-center">
                   🎨 Image 204G图像魔方
@@ -70,7 +77,7 @@ export default function Footer() {
                   😺 猫咪路由评译
                   <ArrowUpRight />
                 </Link>
-              </li>
+              </li> */}
             </ul>
           </div>
 
@@ -78,7 +85,7 @@ export default function Footer() {
           <div>
             <h3 className="font-semibold mb-3 text-white">我创建的GPTs</h3>
             <ul className="space-y-2">
-              <li>
+              {/* <li>
                 <Link href="/gpts/update" className="hover:text-white flex items-center">
                   更新更更新的GPTs
                   <ArrowUpRight />
@@ -107,7 +114,7 @@ export default function Footer() {
                   Claude 3 Opus
                   <ArrowUpRight />
                 </Link>
-              </li>
+              </li> */}
             </ul>
           </div>
 
@@ -121,20 +128,20 @@ export default function Footer() {
                   <ArrowUpRight />
                 </Link>
               </li>
-              <li>
+              {/* <li>
                 <Link href="/about" className="hover:text-white flex items-center">
                   即刻
                   <ArrowUpRight />
                 </Link>
-              </li>
+              </li> */}
               <li>
-                <Link href="https://youtube.com" className="hover:text-white flex items-center" target="_blank">
+                <Link href="https://www.youtube.com/@%E5%8D%AB%E6%98%9F-f1p" className="hover:text-white flex items-center" target="_blank">
                   Youtube
                   <ArrowUpRight />
                 </Link>
               </li>
               <li>
-                <Link href="https://bilibili.com" className="hover:text-white flex items-center" target="_blank">
+                <Link href="https://space.bilibili.com/438185619" className="hover:text-white flex items-center" target="_blank">
                   Bilibili
                   <ArrowUpRight />
                 </Link>
