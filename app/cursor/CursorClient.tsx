@@ -23,19 +23,106 @@ interface Props {
   initialNavItems: ContentNavItem[]
 }
 
+// 验证路径是否属于当前内容类型
+const isValidPath = (path: string) => {
+  return path.startsWith('/cursor/') || path === '/cursor'
+}
+
+// 获取第一个导航项作为默认路径
+const getDefaultPath = (navItems: NavItem[]) => {
+  // 如果没有导航项，返回默认路径
+  if (!navItems || navItems.length === 0) {
+    return '/cursor/header/guide';
+  }
+
+  // 遍历查找第一个有效的路径
+  for (const item of navItems) {
+    // 如果当前项有直接的 href，返回它
+    if (item.href) {
+      return item.href;
+    }
+    // 如果当前项有子项，返回第一个子项的 href
+    if (item.children && item.children.length > 0) {
+      const firstChild = item.children[0];
+      if (firstChild.href) {
+        return firstChild.href;
+      }
+    }
+  }
+
+  // 如果都没找到，返回默认路径
+  return '/cursor/header/guide';
+}
+
 export default function CursorClient({ initialNavItems: _ }: Props) {  // Rename to _ to indicate intentionally unused
+  // 获取Cursor部分的导航配置
+  const cursorNav = topNavigation.find(nav => nav.key === 'cursor')
+  const navItems = useMemo(() => cursorNav?.sidebar || [], [cursorNav])
+
+  // 解析HTML内容中的标题并设置ID
+  const processContent = useCallback((content: string) => {
+    const parser = new DOMParser();
+    const doc = parser.parseFromString(content, 'text/html');
+    const headings = doc.querySelectorAll('h1, h2, h3, h4, h5, h6');
+    
+    const toc: TableOfContents[] = [];
+    headings.forEach((heading, index) => {
+      const level = parseInt(heading.tagName[1]);
+      const text = heading.textContent?.trim() || '';
+      
+      if (!text) return;
+      
+      // 生成唯一的 ID
+      const id = `heading-${index}-${text
+        .toLowerCase()
+        .replace(/[^a-z0-9\u4e00-\u9fa5]+/g, '-')
+        .replace(/^-+|-+$/g, '')}`;
+      
+      // 将ID添加到原始HTML中的标题
+      heading.id = id;
+      
+      toc.push({ id, text, level });
+    });
+    
+    return {
+      processedContent: doc.body.innerHTML,
+      toc
+    };
+  }, []);
+
   const [content, setContent] = useState<string>('')
   const [toc, setToc] = useState<TableOfContents[]>([])
   const [navigation, setNavigation] = useState<{ 
     prev: { id: string; title: string } | null; 
     next: { id: string; title: string } | null 
   }>({ prev: null, next: null })
-  
-  // 获取Cursor部分的导航配置
-  const cursorNav = topNavigation.find(nav => nav.key === 'cursor')
-  const navItems = useMemo(() => cursorNav?.sidebar || [], [cursorNav])
+  const [currentPage, setCurrentPage] = useState(() => {
+    if (typeof window !== 'undefined') {
+      const path = window.location.pathname
+      // 如果是根路径或 cursor 路径，使用默认路径
+      if (path === '/' || path === '/cursor') {
+        const defaultPath = getDefaultPath(navItems)
+        return defaultPath
+      }
+      // 如果是有效的 cursor 路径，使用当前路径
+      if (isValidPath(path)) {
+        return path
+      }
+      // 其他情况使用默认路径
+      return getDefaultPath(navItems)
+    }
+    return getDefaultPath(navItems)
+  })
+  const [metadata, setMetadata] = useState<ArticleData>({
+    title: '',
+    date: '',
+    tags: [],
+    section: '',
+    content: ''
+  })
+  const [expandedItems, setExpandedItems] = useState<string[]>([])
 
-  // 使用 useCallback 包装 loadContent，并将其定义移到 useEffect 之前
+  // 使用 useCallback 包装 loadContent
   const loadContent = useCallback(async (page: string) => {
     try {
       if (!page) return;
@@ -101,56 +188,7 @@ export default function CursorClient({ initialNavItems: _ }: Props) {  // Rename
     if (contentPath && isValidPath(currentPage)) {  // 只在有效路径时才加载内容
       loadContent(contentPath)
     }
-  }, [currentPage, loadContent, isValidPath])
-
-  // 获取第一个导航项作为默认路径
-  const getDefaultPath = (navItems: NavItem[]) => {
-    // 如果没有导航项，返回默认路径
-    if (!navItems || navItems.length === 0) {
-      return '/cursor/header/guide';
-    }
-
-    // 遍历查找第一个有效的路径
-    for (const item of navItems) {
-      // 如果当前项有直接的 href，返回它
-      if (item.href) {
-        return item.href;
-      }
-      // 如果当前项有子项，返回第一个子项的 href
-      if (item.children && item.children.length > 0) {
-        const firstChild = item.children[0];
-        if (firstChild.href) {
-          return firstChild.href;
-        }
-      }
-    }
-
-    // 如果都没找到，返回默认路径
-    return '/cursor/header/guide';
-  }
-
-  // 验证路径是否属于当前内容类型
-  const isValidPath = (path: string) => {
-    return path.startsWith('/cursor/') || path === '/cursor'
-  }
-
-  const [currentPage, setCurrentPage] = useState(() => {
-    if (typeof window !== 'undefined') {
-      const path = window.location.pathname
-      // 如果是根路径或 cursor 路径，使用默认路径
-      if (path === '/' || path === '/cursor') {
-        const defaultPath = getDefaultPath(navItems)
-        return defaultPath
-      }
-      // 如果是有效的 cursor 路径，使用当前路径
-      if (isValidPath(path)) {
-        return path
-      }
-      // 其他情况使用默认路径
-      return getDefaultPath(navItems)
-    }
-    return getDefaultPath(navItems)
-  })
+  }, [currentPage, loadContent])
 
   const handleNavItemClick = (href: string) => {
     if (!href || href === '#') return;
@@ -185,15 +223,6 @@ export default function CursorClient({ initialNavItems: _ }: Props) {  // Rename
     }
   }
 
-  const [metadata, setMetadata] = useState<ArticleData>({  // Rename to metadata since we're using it
-    title: '',
-    date: '',
-    tags: [],
-    section: '',
-    content: ''
-  })
-  const [expandedItems, setExpandedItems] = useState<string[]>([])
-
   // 初始化时展开当前路径所在的导航项
   useEffect(() => {
     const expandedSections = navItems
@@ -201,37 +230,6 @@ export default function CursorClient({ initialNavItems: _ }: Props) {  // Rename
       .map(item => item.title);
     setExpandedItems(expandedSections);
   }, [currentPage, navItems]);
-
-  // 解析HTML内容中的标题并设置ID
-  const processContent = (content: string) => {
-    const parser = new DOMParser();
-    const doc = parser.parseFromString(content, 'text/html');
-    const headings = doc.querySelectorAll('h1, h2, h3, h4, h5, h6');
-    
-    const toc: TableOfContents[] = [];
-    headings.forEach((heading, index) => {
-      const level = parseInt(heading.tagName[1]);
-      const text = heading.textContent?.trim() || '';
-      
-      if (!text) return;
-      
-      // 生成唯一的 ID
-      const id = `heading-${index}-${text
-        .toLowerCase()
-        .replace(/[^a-z0-9\u4e00-\u9fa5]+/g, '-')
-        .replace(/^-+|-+$/g, '')}`;
-      
-      // 将ID添加到原始HTML中的标题
-      heading.id = id;
-      
-      toc.push({ id, text, level });
-    });
-    
-    return {
-      processedContent: doc.body.innerHTML,
-      toc
-    };
-  };
 
   // 处理目录点击
   const handleTocClick = (e: React.MouseEvent<HTMLAnchorElement>, id: string) => {
