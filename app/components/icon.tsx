@@ -135,4 +135,13 @@ export const Icons = {
             />
         </svg>
     ),
+}
+
+// Export all icons as default
+export default {
+    ArrowUpRight,
+    ChatGPTIcon,
+    CursorIcon,
+    DeepseekIcon,
+    ...Icons
 } 
