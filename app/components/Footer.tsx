@@ -1,5 +1,5 @@
 import Link from 'next/link'
-import { ArrowUpRight } from './icon'
+import { ArrowUpRight } from './shared/icons'
 
 export default function Footer() {
   return (
