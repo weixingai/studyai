@@ -10,7 +10,7 @@ interface Props {
 }
 
 export default function TopNav({ items, activeKey, onNavChange }: Props) {
-  const handleNavClick = (key: string, _: string) => {
+  const handleNavClick = (key: string) => {
     onNavChange(key);
   };
 
@@ -34,7 +34,7 @@ export default function TopNav({ items, activeKey, onNavChange }: Props) {
                   href={defaultHref}
                   className={`flex items-center text-lg font-medium transition-colors hover:text-green-600 
                     ${activeKey === item.key ? 'text-green-600 border-b-2 border-green-600' : 'text-gray-600'}`}
-                  onClick={() => handleNavClick(item.key, defaultHref)}
+                  onClick={() => handleNavClick(item.key)}
                 >
                   {item.title}
                 </Link>
