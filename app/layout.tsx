@@ -6,7 +6,7 @@ import NavLink from './components/NavLink'
 import Footer from './components/Footer'
 import { FloatingAds } from './components/ads/FloatingAds'
 import { floatingAdsConfig } from '@/lib/config/floating-ads'
-import { Icons } from './components/icon'
+import { Icons } from './components/shared/icons'
 
 const inter = Inter({ subsets: ['latin'] })
 

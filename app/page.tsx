@@ -1,5 +1,5 @@
 import Link from 'next/link'
-import { ChatGPTIcon, CursorIcon, DeepseekIcon } from './components/icon'
+import { ChatGPTIcon, CursorIcon, DeepseekIcon } from './components/shared/icons'
 
 export default function Home() {
   return (
