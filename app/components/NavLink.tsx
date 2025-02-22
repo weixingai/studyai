@@ -2,7 +2,7 @@
 
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
-import { ArrowUpRight } from './icon'
+import { ArrowUpRight } from '@/app/components/shared/icons'
 
 export default function NavLink({ href, children, showArrow = true }: { 
   href: string; 
