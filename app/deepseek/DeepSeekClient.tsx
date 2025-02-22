@@ -11,14 +11,6 @@ interface TableOfContents {
   level: number;
 }
 
-interface ArticleData {
-  title: string;
-  date: string;
-  tags: string[];
-  section: string;
-  content: string;
-}
-
 interface Props {
   initialNavItems?: ContentNavItem[]  // Make it optional since we're not using it
 }
@@ -54,7 +46,7 @@ const getDefaultPath = (navItems: NavItem[]) => {
   return '/deepseek/header/introduction';
 }
 
-export default function DeepSeekClient({ initialNavItems: _ }: Props) {
+export default function DeepSeekClient({ }: Props) {
   // 获取DeepSeek部分的导航配置
   const deepseekNav = topNavigation.find(nav => nav.key === 'deepseek')
   const navItems = useMemo(() => deepseekNav?.sidebar || [], [deepseekNav])

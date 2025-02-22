@@ -11,14 +11,6 @@ interface TableOfContents {
   level: number;
 }
 
-interface ArticleData {
-  title: string;
-  date: string;
-  tags: string[];
-  section: string;
-  content: string;
-}
-
 interface Props {
   initialNavItems?: ContentNavItem[]  // Make it optional since we're not using it
 }
@@ -54,7 +46,7 @@ const getDefaultPath = (navItems: NavItem[]) => {
   return '/cursor/header/guide';
 }
 
-export default function CursorClient({ initialNavItems: _ }: Props) {  // Rename to _ to indicate intentionally unused
+export default function CursorClient({ }: Props) {
   // 获取Cursor部分的导航配置
   const cursorNav = topNavigation.find(nav => nav.key === 'cursor')
   const navItems = useMemo(() => cursorNav?.sidebar || [], [cursorNav])

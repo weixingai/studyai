@@ -11,14 +11,6 @@ interface TableOfContents {
   level: number;
 }
 
-interface ArticleData {
-  title: string;
-  date: string;
-  tags: string[];
-  section: string;
-  content: string;
-}
-
 interface Props {
   initialNavItems?: ContentNavItem[]  // Make it optional since we're not using it
 }
@@ -54,7 +46,7 @@ const getDefaultPath = (navItems: NavItem[]) => {
   return '/chatgpt/header/ai-tools';
 }
 
-export default function ChatGPTClient({ initialNavItems: _ }: Props) {
+export default function ChatGPTClient({ }: Props) {
   // 获取ChatGPT部分的导航配置
   const chatgptNav = topNavigation.find(nav => nav.key === 'chatgpt')
   const navItems = useMemo(() => chatgptNav?.sidebar || [], [chatgptNav])
