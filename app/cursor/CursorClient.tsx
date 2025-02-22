@@ -1,7 +1,7 @@
 'use client'
 
 import Link from 'next/link'
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useCallback, useMemo } from 'react'
 import { NavItem as ContentNavItem } from '@/lib/markdown-server'
 import { topNavigation, NavItem } from '@/lib/config/navigation'
 
@@ -23,11 +23,85 @@ interface Props {
   initialNavItems: ContentNavItem[]
 }
 
-export default function CursorClient({ initialNavItems }: Props) {
+export default function CursorClient({ initialNavItems: _ }: Props) {  // Rename to _ to indicate intentionally unused
   const [content, setContent] = useState<string>('')
+  const [toc, setToc] = useState<TableOfContents[]>([])
+  const [navigation, setNavigation] = useState<{ 
+    prev: { id: string; title: string } | null; 
+    next: { id: string; title: string } | null 
+  }>({ prev: null, next: null })
+  
   // 获取Cursor部分的导航配置
   const cursorNav = topNavigation.find(nav => nav.key === 'cursor')
-  const navItems = cursorNav?.sidebar || []
+  const navItems = useMemo(() => cursorNav?.sidebar || [], [cursorNav])
+
+  // 使用 useCallback 包装 loadContent，并将其定义移到 useEffect 之前
+  const loadContent = useCallback(async (page: string) => {
+    try {
+      if (!page) return;
+      
+      const cleanPage = page.replace(/^\/+|\/+$/g, '').trim();
+      if (!cleanPage) return;
+      
+      const response = await fetch(`/api?action=get-content&page=cursor/${cleanPage}`);
+      const data = await response.json();
+      
+      if (data.success) {
+        // 处理内容和目录
+        const { processedContent, toc: newToc } = processContent(data.content);
+        setContent(processedContent);
+        setToc(newToc);
+        
+        setMetadata(data.metadata || {
+          title: '',
+          date: '',
+          tags: [],
+          section: '',
+          content: ''
+        });
+        
+        // 获取导航信息
+        const navResponse = await fetch(`/api?action=get-navigation&currentId=${cleanPage}&type=cursor`);
+        const navData = await navResponse.json();
+        if (navData.success) {
+          setNavigation(navData.navigation);
+        }
+        
+        // 处理URL中的锚点
+        if (window.location.hash) {
+          const hash = window.location.hash.slice(1);
+          requestAnimationFrame(() => {
+            const element = document.getElementById(hash);
+            if (element) {
+              const navHeight = 64;
+              const padding = 24;
+              const elementRect = element.getBoundingClientRect();
+              const absoluteElementTop = window.pageYOffset + elementRect.top;
+              const offsetPosition = absoluteElementTop - navHeight - padding;
+              
+              window.scrollTo({
+                top: offsetPosition,
+                behavior: 'smooth'
+              });
+            }
+          });
+        }
+      }
+    } catch (error) {
+      console.error('Error loading content:', error);
+    }
+  }, [processContent]);
+
+  useEffect(() => {
+    // 从完整路径中提取内容路径
+    const contentPath = currentPage
+      .replace('/cursor/', '')  // 移除前缀
+      .replace(/^\/+|\/+$/g, '') // 移除开头和结尾的多余斜杠
+    
+    if (contentPath && isValidPath(currentPage)) {  // 只在有效路径时才加载内容
+      loadContent(contentPath)
+    }
+  }, [currentPage, loadContent, isValidPath])
 
   // 获取第一个导航项作为默认路径
   const getDefaultPath = (navItems: NavItem[]) => {
@@ -111,19 +185,14 @@ export default function CursorClient({ initialNavItems }: Props) {
     }
   }
 
-  const [articleData, setArticleData] = useState<ArticleData>({
+  const [metadata, setMetadata] = useState<ArticleData>({  // Rename to metadata since we're using it
     title: '',
     date: '',
     tags: [],
     section: '',
     content: ''
   })
-  const [toc, setToc] = useState<TableOfContents[]>([])
   const [expandedItems, setExpandedItems] = useState<string[]>([])
-  const [navigation, setNavigation] = useState<{ 
-    prev: { id: string; title: string } | null; 
-    next: { id: string; title: string } | null 
-  }>({ prev: null, next: null })
 
   // 初始化时展开当前路径所在的导航项
   useEffect(() => {
@@ -132,17 +201,6 @@ export default function CursorClient({ initialNavItems }: Props) {
       .map(item => item.title);
     setExpandedItems(expandedSections);
   }, [currentPage, navItems]);
-
-  useEffect(() => {
-    // 从完整路径中提取内容路径
-    const contentPath = currentPage
-      .replace('/cursor/', '')  // 移除前缀
-      .replace(/^\/+|\/+$/g, '') // 移除开头和结尾的多余斜杠
-    
-    if (contentPath && isValidPath(currentPage)) {  // 只在有效路径时才加载内容
-      loadContent(contentPath)
-    }
-  }, [currentPage])
 
   // 解析HTML内容中的标题并设置ID
   const processContent = (content: string) => {
@@ -189,7 +247,6 @@ export default function CursorClient({ initialNavItems }: Props) {
       // 获取元素的位置
       const elementRect = element.getBoundingClientRect();
       const absoluteElementTop = window.pageYOffset + elementRect.top;
-      const middle = elementRect.height / 2;
       const offsetPosition = absoluteElementTop - navHeight - padding;
       
       // 滚动
@@ -209,63 +266,6 @@ export default function CursorClient({ initialNavItems }: Props) {
         element.style.backgroundColor = '';
       }, 1000);
     });
-  };
-
-  const loadContent = async (page: string) => {
-    try {
-      if (!page) return;
-      
-      const cleanPage = page.replace(/^\/+|\/+$/g, '').trim();
-      if (!cleanPage) return;
-      
-      const response = await fetch(`/api?action=get-content&page=cursor/${cleanPage}`);
-      const data = await response.json();
-      
-      if (data.success) {
-        // 处理内容和目录
-        const { processedContent, toc } = processContent(data.content);
-        setContent(processedContent);
-        setToc(toc);
-        
-        setArticleData(data.metadata || {
-          title: '',
-          date: '',
-          tags: [],
-          section: '',
-          content: ''
-        });
-        
-        // 获取导航信息
-        const navResponse = await fetch(`/api?action=get-navigation&currentId=${cleanPage}&type=cursor`);
-        const navData = await navResponse.json();
-        if (navData.success) {
-          setNavigation(navData.navigation);
-        }
-        
-        // 处理URL中的锚点
-        if (window.location.hash) {
-          const hash = window.location.hash.slice(1);
-          requestAnimationFrame(() => {
-            const element = document.getElementById(hash);
-            if (element) {
-              const navHeight = 64;
-              const padding = 24;
-              const elementRect = element.getBoundingClientRect();
-              const absoluteElementTop = window.pageYOffset + elementRect.top;
-              const offsetPosition = absoluteElementTop - navHeight - padding;
-              
-              window.scrollTo({
-                top: offsetPosition,
-                behavior: 'smooth'
-              });
-            }
-          });
-        }
-      }
-    } catch (error) {
-      console.error('Error loading content:', error);
-      setContent('<div class="text-red-500">加载内容失败，请稍后重试</div>');
-    }
   };
 
   const toggleExpand = (title: string) => {

@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import { useRouter, usePathname } from 'next/navigation';
-import { topNavigation, NavItem } from '@/lib/config/navigation';
+import { topNavigation } from '@/lib/config/navigation';
 import TopNav from './TopNav';
 import Sidebar from './Sidebar';
 
@@ -54,7 +54,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
         router.push(defaultRoute);
       }
     }
-  }, [pathname]);
+  }, [pathname, router]);
   
   const activeNav = topNavigation.find(nav => nav.key === activeNavKey);
   

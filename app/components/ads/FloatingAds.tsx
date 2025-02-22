@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
-import { FloatingAd, FloatingAdsConfig } from '@/lib/config/floating-ads';
+import type { FloatingAdsConfig } from '@/lib/config/floating-ads';  // Only import the type
 
 interface FloatingAdsProps {
   config: FloatingAdsConfig;
@@ -12,28 +12,35 @@ export function FloatingAds({ config }: FloatingAdsProps) {
   const [isExpanded, setIsExpanded] = useState(true);
   const [currentPage, setCurrentPage] = useState(0);
 
-  if (!config?.enabled || !config?.ads?.length) {
-    return null;
-  }
-
   // 计算总页数
-  const totalPages = Math.ceil(config.ads.length / config.cardsPerPage);
+  const totalPages = Math.ceil(config.ads?.length / (config.cardsPerPage || 1));
   
   // 获取当前页的广告
-  const currentAds = config.ads.slice(
-    currentPage * config.cardsPerPage,
-    (currentPage + 1) * config.cardsPerPage
-  );
+  const currentAds = config.ads?.slice(
+    currentPage * (config.cardsPerPage || 1),
+    (currentPage + 1) * (config.cardsPerPage || 1)
+  ) || [];
 
   useEffect(() => {
-    if (!config.autoPlayInterval || totalPages <= 1) return;
+    // 将条件检查移到 useEffect 内部
+    if (!config?.enabled || !config?.ads?.length) {
+      return;
+    }
+
+    if (!config.autoPlayInterval || totalPages <= 1) {
+      return;
+    }
 
     const interval = setInterval(() => {
       setCurrentPage((prev) => (prev + 1) % totalPages);
     }, config.autoPlayInterval);
 
     return () => clearInterval(interval);
-  }, [config.autoPlayInterval, totalPages, config.ads.length]);
+  }, [config, totalPages]);
+
+  if (!config?.enabled || !config?.ads?.length) {
+    return null;
+  }
 
   return (
     <div className="fixed right-0 top-[calc(50%-60px)] -translate-y-1/2 z-40">

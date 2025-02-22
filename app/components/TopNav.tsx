@@ -10,7 +10,7 @@ interface Props {
 }
 
 export default function TopNav({ items, activeKey, onNavChange }: Props) {
-  const handleNavClick = (key: string, href: string) => {
+  const handleNavClick = (key: string, _: string) => {
     onNavChange(key);
   };
 
