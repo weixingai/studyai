@@ -1,140 +1,136 @@
-# Cursor 快捷键参考指南
+# Cursor 快捷键指南
 
-本文档列出了 Cursor 中最常用和最重要的快捷键，帮助你提高开发效率。
+本文档列出了 Cursor 编辑器中所有可用的快捷键。
 
-## AI 功能快捷键
+## 通用快捷键
 
-### 代码生成
-- `Cmd/Ctrl + K`: 触发 AI 代码生成
-- `Cmd/Ctrl + L`: 请求 AI 解释代码
-- `Cmd/Ctrl + Shift + R`: 触发代码重构
-- `Cmd/Ctrl + I`: 内联 AI 补全
+| 快捷键 | 功能 |
+|--------|------|
+| `Cmd/Ctrl + P` | 打开文件搜索 |
+| `Cmd/Ctrl + Shift + P` | 打开命令面板 |
+| `Cmd/Ctrl + ,` | 打开设置 |
+| `Cmd/Ctrl + B` | 切换侧边栏 |
+| `Cmd/Ctrl + J` | 切换终端 |
+| `Cmd/Ctrl + W` | 关闭当前标签页 |
+| `Cmd/Ctrl + S` | 保存文件 |
+| `Cmd/Ctrl + K` | 打开快速操作菜单 |
 
-### AI 对话
-- `Cmd/Ctrl + /`: 打开 AI 聊天面板
-- `Cmd/Ctrl + Shift + /`: 在新标签页中打开 AI 聊天
-- `Esc`: 关闭 AI 聊天面板
+## 编辑快捷键
 
-## 编辑器基本操作
+| 快捷键 | 功能 |
+|--------|------|
+| `Cmd/Ctrl + X` | 剪切行（未选中时）或选中内容 |
+| `Cmd/Ctrl + C` | 复制行（未选中时）或选中内容 |
+| `Cmd/Ctrl + V` | 粘贴 |
+| `Cmd/Ctrl + Z` | 撤销 |
+| `Cmd/Ctrl + Shift + Z` | 重做 |
+| `Cmd/Ctrl + /` | 切换行注释 |
+| `Alt + ↑/↓` | 向上/向下移动行 |
+| `Cmd/Ctrl + Enter` | 在下方插入新行 |
+| `Cmd/Ctrl + Shift + Enter` | 在上方插入新行 |
+| `Cmd/Ctrl + ]` | 增加缩进 |
+| `Cmd/Ctrl + [` | 减少缩进 |
 
-### 文件操作
-- `Cmd/Ctrl + N`: 新建文件
-- `Cmd/Ctrl + O`: 打开文件
-- `Cmd/Ctrl + S`: 保存文件
-- `Cmd/Ctrl + W`: 关闭当前标签页
-- `Cmd/Ctrl + Shift + T`: 重新打开关闭的标签页
+## AI 相关快捷键
 
-### 编辑操作
-- `Cmd/Ctrl + X`: 剪切
-- `Cmd/Ctrl + C`: 复制
-- `Cmd/Ctrl + V`: 粘贴
-- `Cmd/Ctrl + Z`: 撤销
-- `Cmd/Ctrl + Shift + Z`: 重做
-- `Cmd/Ctrl + A`: 全选
-- `Cmd/Ctrl + D`: 选择下一个匹配项
-- `Cmd/Ctrl + U`: 取消选择
+| 快捷键 | 功能 |
+|--------|------|
+| `Cmd/Ctrl + K` | 打开 AI 命令菜单 |
+| `Cmd/Ctrl + I` | 内联 AI 补全 |
+| `Cmd/Ctrl + L` | 打开 AI 聊天窗口 |
+| `Cmd/Ctrl + Shift + L` | 关闭 AI 聊天窗口 |
+| `Cmd/Ctrl + Shift + I` | 生成代码实现 |
+| `Cmd/Ctrl + Shift + E` | 解释选中的代码 |
 
-### 光标操作
-- `Alt + Click`: 添加多光标
-- `Cmd/Ctrl + Alt + Up/Down`: 向上/下添加光标
-- `Cmd/Ctrl + Shift + L`: 选择所有匹配项
-- `Esc`: 返回单光标模式
+## 导航快捷键
 
-### 行操作
-- `Cmd/Ctrl + Shift + K`: 删除行
-- `Alt + Up/Down`: 移动行
-- `Shift + Alt + Up/Down`: 复制行
-- `Cmd/Ctrl + Enter`: 在下方插入行
-- `Cmd/Ctrl + Shift + Enter`: 在上方插入行
+| 快捷键 | 功能 |
+|--------|------|
+| `Cmd/Ctrl + G` | 转到行 |
+| `Cmd/Ctrl + T` | 显示所有符号 |
+| `Cmd/Ctrl + Shift + O` | 转到文件中的符号 |
+| `Cmd/Ctrl + Shift + M` | 显示问题面板 |
+| `F12` | 转到定义 |
+| `Alt + F12` | 速览定义 |
+| `F2` | 重命名符号 |
 
-## 导航
+## 搜索快捷键
 
-### 文件导航
-- `Cmd/Ctrl + P`: 快速打开文件
-- `Cmd/Ctrl + Shift + O`: 转到符号
-- `Cmd/Ctrl + G`: 转到行
-- `Cmd/Ctrl + Shift + E`: 显示资源管理器
-- `Cmd/Ctrl + B`: 切换侧边栏
+| 快捷键 | 功能 |
+|--------|------|
+| `Cmd/Ctrl + F` | 在文件中查找 |
+| `Cmd/Ctrl + H` | 在文件中替换 |
+| `Cmd/Ctrl + Shift + F` | 在项目中查找 |
+| `Cmd/Ctrl + Shift + H` | 在项目中替换 |
 
-### 代码导航
-- `F12`: 转到定义
-- `Alt + F12`: 查看定义
-- `Shift + F12`: 查看引用
-- `Cmd/Ctrl + Shift + \\`: 转到匹配的括号
+## 多光标编辑
 
-## 搜索和替换
-
-### 搜索
-- `Cmd/Ctrl + F`: 在文件中搜索
-- `Cmd/Ctrl + Shift + F`: 在项目中搜索
-- `F3`: 查找下一个
-- `Shift + F3`: 查找上一个
-
-### 替换
-- `Cmd/Ctrl + H`: 在文件中替换
-- `Cmd/Ctrl + Shift + H`: 在项目中替换
-- `Cmd/Ctrl + Alt + Enter`: 替换所有
+| 快捷键 | 功能 |
+|--------|------|
+| `Alt + 点击` | 插入光标 |
+| `Cmd/Ctrl + Alt + ↑/↓` | 在上/下插入光标 |
+| `Cmd/Ctrl + D` | 选择下一个匹配项 |
+| `Cmd/Ctrl + Shift + L` | 选择所有匹配项 |
 
 ## 代码折叠
 
-- `Cmd/Ctrl + [`: 折叠代码块
-- `Cmd/Ctrl + ]`: 展开代码块
-- `Cmd/Ctrl + Shift + [`: 折叠所有代码块
-- `Cmd/Ctrl + Shift + ]`: 展开所有代码块
+| 快捷键 | 功能 |
+|--------|------|
+| `Cmd/Ctrl + Shift + [` | 折叠区域 |
+| `Cmd/Ctrl + Shift + ]` | 展开区域 |
+| `Cmd/Ctrl + K Cmd/Ctrl + 0` | 折叠所有区域 |
+| `Cmd/Ctrl + K Cmd/Ctrl + J` | 展开所有区域 |
 
 ## 终端操作
 
-- `Cmd/Ctrl + \``: 切换终端
-- `Cmd/Ctrl + Shift + \``: 新建终端
-- `Cmd/Ctrl + K`: 清除终端
+| 快捷键 | 功能 |
+|--------|------|
+| `Cmd/Ctrl + J` | 切换终端 |
+| `Cmd/Ctrl + Shift + C` | 在终端中复制 |
+| `Cmd/Ctrl + Shift + V` | 在终端中粘贴 |
+| `Cmd/Ctrl + \` | 分割终端 |
 
-## 其他功能
+## 其他快捷键
 
-### 界面控制
-- `Cmd/Ctrl + B`: 切换侧边栏
-- `Cmd/Ctrl + J`: 切换面板
-- `Cmd/Ctrl + Shift + F`: 切换全屏
-- `Cmd/Ctrl + +/-`: 放大/缩小
+| 快捷键 | 功能 |
+|--------|------|
+| `Cmd/Ctrl + +/-` | 放大/缩小 |
+| `Cmd/Ctrl + 0` | 重置缩放 |
+| `Cmd/Ctrl + K Z` | 切换禅模式 |
+| `Cmd/Ctrl + K M` | 更改语言模式 |
 
-### Git 操作
-- `Cmd/Ctrl + Shift + G`: 显示 Git 面板
-- `Alt + G`: 显示 Git 命令面板
+## 注意事项
+
+- 在 macOS 上使用 `Cmd`，在 Windows/Linux 上使用 `Ctrl`
+- 某些快捷键可能会与系统快捷键冲突
+- 可以在设置中自定义快捷键
+- 部分快捷键可能因操作系统或键盘布局而异
 
 ## 自定义快捷键
 
 你可以通过以下步骤自定义快捷键：
 
-1. 打开命令面板 (`Cmd/Ctrl + Shift + P`)
-2. 输入 "Keyboard Shortcuts"
+1. 打开命令面板（`Cmd/Ctrl + Shift + P`）
+2. 输入 "Preferences: Open Keyboard Shortcuts"
 3. 找到想要修改的命令
 4. 点击编辑图标
-5. 输入新的快捷键组合
+5. 按下新的快捷键组合
 
-## 注意事项
+## 常见问题
 
-- 在 Windows 上使用 `Ctrl`，在 macOS 上使用 `Cmd`
-- 某些快捷键可能与系统快捷键冲突
-- 可以在设置中修改冲突的快捷键
+### 快捷键不起作用？
 
-## 快捷键技巧
+- 检查是否有其他应用占用了该快捷键
+- 确认当前窗口焦点是否在编辑器中
+- 验证快捷键是否在当前上下文可用
+- 尝试重启 Cursor
 
-### 提高效率的建议
-1. 从最常用的快捷键开始记忆
-2. 逐步增加新的快捷键
-3. 创建自己的快捷键组合
-4. 定期练习使用快捷键
+### 如何重置快捷键？
 
-### 常见问题
-- 快捷键不起作用：检查是否有冲突
-- 组合键难按：考虑重新映射
-- 记不住快捷键：从最基础的开始
+1. 打开设置
+2. 转到键盘快捷键
+3. 点击右上角的"重置"按钮
 
-## 总结
+## 结语
 
-掌握这些快捷键将显著提升你的开发效率。建议：
-1. 打印或收藏此参考指南
-2. 每天学习 1-2 个新快捷键
-3. 在日常工作中多加练习
-4. 根据需要自定义快捷键
-
-持续使用和练习这些快捷键，你将逐渐成为 Cursor 的高效用户！ 
+熟练掌握这些快捷键可以显著提高你的编码效率。建议从最常用的快捷键开始练习，逐步掌握更多快捷键。随着使用次数增加，这些快捷键会成为你的肌肉记忆，让你的编码过程更加流畅。 
