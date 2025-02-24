@@ -60,7 +60,8 @@ export const topNavigation: TopNavItem[] = [
       {
         title: 'Cursor 进阶教程',
         children: [
-          { title: 'Cursor AI 功能详解', href: '/cursor/advanced/ai-features' }
+          { title: 'Cursor AI 功能详解', href: '/cursor/advanced/ai-features' },
+          { title: 'Cursor代码索引(Codebase Indexing)', href: '/cursor/advanced/codebase-idexing' }
         ]
       },
       {
@@ -95,7 +96,7 @@ export const topNavigation: TopNavItem[] = [
       {
         title: 'DeepSeek 进阶教程',
         children: [
-          { title: 'eepSeek 模型微调指南', href: '/deepseek/advanced/fine-tuning' }
+          { title: 'DeepSeek 模型微调指南', href: '/deepseek/advanced/fine-tuning' }
         ]
       },
       {
