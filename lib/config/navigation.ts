@@ -50,6 +50,7 @@ export const topNavigation: TopNavItem[] = [
     key: 'cursor',
     sidebar: [
       { title: 'Cursor 教程简介', href: '/cursor/header/guide' },
+      { title: 'Cursor vs Windsurf vs GitHub Copilot', href: '/cursor/header/cursor-windsurf-copilot' },
       {
         title: 'Cursor 基础教程',
         children: [
