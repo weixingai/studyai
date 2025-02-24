@@ -84,7 +84,7 @@ export const topNavigation: TopNavItem[] = [
     ]
   },
   {
-    title: 'DeepSeek介绍',
+    title: 'DeepSeek教程',
     key: 'deepseek',
     sidebar: [
       { title: 'DeepSeek 简介', href: '/deepseek/header/introduction' },

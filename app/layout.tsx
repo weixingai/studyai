@@ -52,9 +52,9 @@ export default function RootLayout({
                   StudyAI
                 </Link>
                 <div className="flex space-x-6">
-                  <NavLink href="/chatgpt">ChatGPT教程</NavLink>
-                  <NavLink href="/cursor">Cursor教程</NavLink>
-                  <NavLink href="/deepseek">Deepseek教程</NavLink>
+                  <NavLink href="/chatgpt" showArrow={false}>ChatGPT教程</NavLink>
+                  <NavLink href="/cursor" showArrow={false}>Cursor教程</NavLink>
+                  <NavLink href="/deepseek" showArrow={false}>Deepseek教程</NavLink>
                 </div>
               </div>
             </nav>
