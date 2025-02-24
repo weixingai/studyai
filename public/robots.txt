@@ -1,5 +1,27 @@
+# https://www.studyai.work/robots.txt
 User-agent: *
 Allow: /
+Allow: /sitemap.xml
 
-# Sitemap
-Sitemap: https://your-domain.com/sitemap.xml 
+# ChatGPT related pages
+Allow: /chatgpt
+Allow: /chatgpt/*
+
+# Cursor related pages
+Allow: /cursor
+Allow: /cursor/*
+
+# Deepseek related pages
+Allow: /deepseek
+Allow: /deepseek/*
+
+# Block certain directories
+Disallow: /api/
+Disallow: /_next/static/
+Disallow: /_next/image/
+
+# Host
+Host: https://www.studyai.work
+
+# Sitemaps
+Sitemap: https://www.studyai.work/sitemap.xml 

@@ -1,0 +1,23 @@
+{
+  "name": "StudyAI.WORK - 你身边的最佳AI中文学习网站",
+  "short_name": "StudyAI",
+  "description": "StudyAI.WORK 是您的专业AI学习平台，提供最新最全的ChatGPT教程、Cursor教程、Deepseek教程等AI工具使用指南。",
+  "icons": [
+    {
+      "src": "/android-chrome-192x192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "/android-chrome-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ],
+  "theme_color": "#ffffff",
+  "background_color": "#ffffff",
+  "display": "standalone",
+  "start_url": "/",
+  "scope": "/",
+  "lang": "zh-CN"
+} 
