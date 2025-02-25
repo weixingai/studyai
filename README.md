@@ -21,7 +21,7 @@ bun dev
 ## 项目结构
 
 ```
-myblog-next/
+studyai/
 ├── app/                    # Next.js App Router 目录
 │   ├── api/               # API 路由
 │   │   └── content/       # 内容相关的 API 端点
