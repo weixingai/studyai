@@ -1,4 +1,4 @@
-# AI 规则
+# .cursorrules(Rules for AI)
 
 了解如何通过规则系统来控制 AI 的行为
 

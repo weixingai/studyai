@@ -50,19 +50,23 @@ export const topNavigation: TopNavItem[] = [
     key: 'cursor',
     sidebar: [
       { title: 'Cursor 教程简介', href: '/cursor/header/guide' },
-      { title: 'Cursor vs Windsurf vs GitHub Copilot', href: '/cursor/header/cursor-windsurf-copilot' },
       {
         title: 'Cursor 基础教程',
         children: [
-          { title: 'Cursor 安装教程', href: '/cursor/basic/installation' }
+          { title: '什么是Cursor', href: '/cursor/basic/installation' },
+          { title: 'Cursor 的安装和下载', href: '/cursor/basic/cursor-download' },
+          { title: 'Cursor 界面介绍', href: '/cursor/basic/cursor-interface' },
+          { title: 'Cursor 设置', href: '/cursor/basic/cursor-settings' }
         ]
       },
       {
         title: 'Cursor 进阶教程',
         children: [
-          { title: 'Cursor AI 功能详解', href: '/cursor/advanced/ai-features' },
           { title: '代码索引(Codebase Indexing)', href: '/cursor/advanced/codebase-idexing' },
-          { title: 'AI 规则(Rules for AI)', href: '/cursor/advanced/rules-for-ai' }
+          { title: '.cursorrules(Rules for AI)', href: '/cursor/advanced/rules-for-ai' },
+          { title: 'Cursor 偏好设置', href: '/cursor/advanced/preferences-settings' },
+          { title: 'Cursor 模型选择', href: '/cursor/advanced/model-select' },
+          { title: 'Cursor 快捷键', href: '/cursor/advanced/shortcuts' },
         ]
       },
       {
@@ -72,9 +76,9 @@ export const topNavigation: TopNavItem[] = [
         ]
       },
       {
-        title: 'Cursor 资料分享',
+        title: 'Cursor 文章分享',
         children: [
-          { title: 'Cursor 快捷键参考指南', href: '/cursor/information/shortcuts' }
+          { title: 'Cursor vs Windsurf vs GitHub Copilot', href: '/cursor/information/cursor-windsurf-copilot' },
         ]
       },
       {
